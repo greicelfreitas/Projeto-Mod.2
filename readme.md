@@ -1,6 +1,6 @@
-projeto Backend-APE.
+Projeto Backend- Criando uma API.
 
-Projeto do backendda turma t6
+Projeto do backend da turma t6
 
-para executar o projeto apontando para o banco dedados local.
+para executar o projeto apontando para o banco de dados local.
 para exercutar o projeto apontando para o banco de dados de produção.
