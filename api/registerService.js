@@ -1,5 +1,9 @@
 const _ = require('lodash')
 const Register = require('./register')
+const fullNameRegex = /^[A-ZÀ-Ÿ][A-zÀ-ÿ']+\s([A-zÀ-ÿ']\s?)*[A-ZÀ-Ÿ][A-zÀ-ÿ']+$/;
+const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
+const mailRegex = /\S+@\S+\.\S+/;
+
 
 Register.methods(['get', 'post', 'put', 'delete'])
 Register.updateOptions({ new: true, runValidators: true})
@@ -32,18 +36,44 @@ function sendErrorsOrNext(req, res, next){
 
 function register(req, res, next){
     const fullName = req.body.fullName || ''
+    const cpf = req.body.cpf ||''
     const mail = req.body.mail ||''
     const phone = req.body.phone ||''
     const address = req.body.address ||''
-    const number = req.body.number ||''
+    const ciudad = req.body.ciudad ||''
     const complement = req.body.complement ||''
 
-    const newBody = new Register({
+    if(fullName == null || fullName == ""){
+        return res.status(400).send({ alert: ["O campo Nome Completo é obrigatório"] })
+        }
+    if(!fullName.match(fullNameRegex)){
+        return res.status(400).send({ alert: ["Informe Nome e Sobrenome"] })
+    }
+
+    if(cpf == null || cpf == ""){
+        return res.status(400).send({ alert: ["O campo CPF é obrigatório."] })
+        }
+
+
+    if(mail == null || mail == ""){
+        return res.status(400).send({ alert: ["O campo E-mail é obrigatório"] })
+        }
+        
+    if(!mail.match(mailRegex)){
+        return res.status(400).send({ alert: [" Informe e-mail."] })
+    }
+
+    if(address == null || address == ""){
+        return res.status(400).send({ alert: ["O campo address é obrigatório"] })
+        }
+
+     const newBody = new Register({
         fullName,
+        cpf,
         mail,
         phone,
         address,
-        number,
+        ciudad,
         complement
     })
 
