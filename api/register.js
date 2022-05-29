@@ -9,7 +9,7 @@ const registerSchema = new mongoose.Schema({
     mail: { type: String, required: true },
     phone: { type: String, required: false },
     address: { type: String, required: true },
-    ciudad: { type: String, required: false },
+    city: { type: String, required: false },
     complement: { type: String, required: false }
 })
 

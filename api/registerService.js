@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const Register = require('./register')
 const fullNameRegex = /^[A-ZÀ-Ÿ][A-zÀ-ÿ']+\s([A-zÀ-ÿ']\s?)*[A-ZÀ-Ÿ][A-zÀ-ÿ']+$/;
-const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
+//const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
 const mailRegex = /\S+@\S+\.\S+/;
 
 
@@ -40,7 +40,7 @@ function register(req, res, next){
     const mail = req.body.mail ||''
     const phone = req.body.phone ||''
     const address = req.body.address ||''
-    const ciudad = req.body.ciudad ||''
+    const city = req.body.city ||''
     const complement = req.body.complement ||''
 
     if(fullName == null || fullName == ""){
@@ -51,8 +51,11 @@ function register(req, res, next){
     }
 
     if(cpf == null || cpf == ""){
-        return res.status(400).send({ alert: ["O campo CPF é obrigatório."] })
+       return res.status(400).send({ alert: ["O campo CPF é obrigatório."] })
         }
+   // if(!cpf.match(cpfRegex)){
+       //return res.status(400).send({ alert: ["Informe um número de CPF válido."] })
+       //}
 
 
     if(mail == null || mail == ""){
@@ -73,7 +76,7 @@ function register(req, res, next){
         mail,
         phone,
         address,
-        ciudad,
+        city,
         complement
     })
 

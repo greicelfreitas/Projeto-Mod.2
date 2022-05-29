@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "833bd0a3-58c5-42af-a8f3-70fffa8b4c57",
+		"name": "Projeto_Mod.2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18571971"
+	},
+	"item": [
+		{
+			"name": "Cadastro",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"RandomFullName\", pm.variables.replaceIn('{{$randomFullName}}'));\r",
+							"\r",
+							"function cpf() {\r",
+							"  const rnd = (n) => Math.round(Math.random() * n);\r",
+							"  const mod = (base, div) => Math.round(base - Math.floor(base / div) * div)\r",
+							"  const n = Array(9).fill('').map(() => rnd(9));\r",
+							"\r",
+							"  let d1 = n.reduce((total, number, index) => (total + (number * (10 - index))), 0)\r",
+							"  d1 = 11 - mod(d1, 11);\r",
+							"  if (d1 >= 10) d1 = 0;\r",
+							"  \r",
+							"  let d2 = (d1 * 2) + n.reduce((total, number, index) => (total + (number * (11 - index))), 0)\r",
+							"  d2 = 11 - mod(d2, 11);\r",
+							"  if (d2 >= 10) d2 = 0;\r",
+							"\r",
+							"  return `${n.join('')}${d1}${d2}`\r",
+							"}\r",
+							"\r",
+							"// opicional para postman\r",
+							"pm.environment.set('cpf', cpf());\r",
+							"\r",
+							"pm.environment.set(\"RandomIP\", pm.variables.replaceIn('{{$randomIP}}'));\r",
+							"pm.environment.set(\"RandomEmail\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
+							"pm.environment.set(\"RandomPhoneNumber\", pm.variables.replaceIn('{{$randomPhoneNumber}}'));\r",
+							"pm.environment.set(\"RandomCity\", pm.variables.replaceIn('{{$randomCity}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    });\r",
+							"\r",
+							"pm.test(\"Check RandomFullName is True\", function(){\r",
+							"   pm.expect(pm.variables.get(\"fullName\")).to.eql(JSON.parse(responseBody).RandomFullName) })\r",
+							"console.log(JSON.parse(responseBody).fullName);\r",
+							"\r",
+							"pm.test(\"Check cpf is True\", function(){\r",
+							"   pm.expect(pm.variables.get(\"cpf\")).to.eql(JSON.parse(responseBody).cpf)})\r",
+							"   console.log(JSON.parse(responseBody).cpf);\r",
+							"\r",
+							"pm.test(\"Check RandomEmail is True\", function(){\r",
+							"   pm.expect(pm.variables.get(\"mail\")).to.eql(JSON.parse(responseBody).RandomEmail)})\r",
+							"   console.log(JSON.parse(responseBody).mail);\r",
+							"\r",
+							"pm.test(\"Check RandomPhoneNumber is True\", function(){\r",
+							"   pm.expect(pm.variables.get(\"RandomPhoneNumber\")).to.eql(JSON.parse(responseBody).phone)})\r",
+							"   console.log(JSON.parse(responseBody).phone);\r",
+							"\r",
+							"pm.test(\"Check RandomEmail is True\", function(){\r",
+							"   pm.expect(pm.variables.get(\"RandomEmail\")).to.eql(JSON.parse(responseBody).address)})\r",
+							"   console.log(JSON.parse(responseBody).address);\r",
+							"\r",
+							"pm.test(\"Check RandomCity is True\", function(){\r",
+							"   pm.expect(pm.variables.get(\"RandomCity\")).to.eql(JSON.parse(responseBody).city)})\r",
+							"   console.log(JSON.parse(responseBody).city);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"fullName\": \"{{RandomFullName}}\",\r\n\"cpf\": \"{{cpf}}\",\r\n\"mail\": \"{{RandomEmail}}\",\r\n\"phone\": \"{{RandomPhoneNumber}}\",\r\n\"address\": \"{{RandomEmail}}\",\r\n\"city\": \"{{RandomCity}}\",\r\n\"complement\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
